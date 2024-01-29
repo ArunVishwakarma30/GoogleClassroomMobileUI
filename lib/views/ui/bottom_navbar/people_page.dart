@@ -247,7 +247,8 @@ class _PeoplePageState extends State<PeoplePage> {
                               height: 20,
                             ),
                             Center(
-                              child: ElevatedButton(
+                              child:
+                              ElevatedButton(
                                   onPressed: () {
                                     showDialog(
                                       barrierDismissible: false,

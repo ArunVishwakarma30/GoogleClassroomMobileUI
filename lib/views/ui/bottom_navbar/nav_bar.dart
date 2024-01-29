@@ -42,15 +42,29 @@ class _BottomNavBarState extends State<BottomNavBar> {
         var classDetails =
             createClassProvider.allCreatedOrJoinedClasses[widget.index];
         return Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: darkThemeColor),
-            title: Text(
-              navProvider.selectedIndex == 0 ? "" : classDetails.className,
-              style: customStyle(24, darkThemeColor, FontWeight.normal),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.black45,
+                    offset: Offset(0, 0.5),
+                    blurRadius: 4.0)
+              ]),
+              child: AppBar(
+                iconTheme: IconThemeData(color: darkThemeColor),
+                title: Text(
+                  navProvider.selectedIndex == 0 ? "" : classDetails.className,
+                  style: customStyle(24, darkThemeColor, FontWeight.normal),
+                ),
+              ),
             ),
           ),
-          body: Center(
-            child: pages.elementAt(navProvider.selectedIndex),
+          body: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Center(
+              child: pages.elementAt(navProvider.selectedIndex),
+            ),
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: navProvider.selectedIndex,

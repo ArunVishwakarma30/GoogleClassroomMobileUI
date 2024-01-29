@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:hci_lms/controllers/auth_provider.dart';
 import 'package:hci_lms/views/app_constants.dart';
+import 'package:hci_lms/views/ui/assignmets/announcement_container.dart';
+import 'package:hci_lms/views/ui/assignmets/post_assignments_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/create_class_provider.dart';
@@ -70,6 +73,9 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: Colors.white,
             child: ListTile(
+              onTap: (){
+                Get.to(()=>const PostAssignmentPage(), transition: Transition.rightToLeft);
+              },
               leading: CircleAvatar(
                 radius: 22,
                 backgroundColor: Colors.pink,
@@ -85,39 +91,43 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(top: 40, bottom: 50),
-                  child: SvgPicture.string(
-                    announcementSvg,
-                  )),
-              Text(
-                details.classTeachers!.any((element) =>
-                        authProvider.loginUserDetails!.emailId ==
-                        element.emailId)
-                    ? "This is where you can talk to your class"
-                    : "This is where you’ll see updates for this class",
-                style: customStyle(16, Colors.black, FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                details.classTeachers!.any((element) =>
-                        authProvider.loginUserDetails!.emailId ==
-                        element.emailId)
-                    ? "Use this announcement section to share announcements and post assignments"
-                    : "Use this announcement section to connect with your class and check for announcements",
-                textAlign: TextAlign.center,
-                style: customStyle(16, Colors.black, FontWeight.w500),
-              ),
-            ],
-          ),
-        )
+        details.classAnnouncements!.isEmpty
+            ? const AnnouncementsContainer(
+                isAssignment: true,
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 40, bottom: 50),
+                        child: SvgPicture.string(
+                          announcementSvg,
+                        )),
+                    Text(
+                      details.classTeachers!.any((element) =>
+                              authProvider.loginUserDetails!.emailId ==
+                              element.emailId)
+                          ? "This is where you can talk to your class"
+                          : "This is where you’ll see updates for this class",
+                      style: customStyle(16, Colors.black, FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      details.classTeachers!.any((element) =>
+                              authProvider.loginUserDetails!.emailId ==
+                              element.emailId)
+                          ? "Use this announcement section to share announcements and post assignments"
+                          : "Use this announcement section to connect with your class and check for announcements",
+                      textAlign: TextAlign.center,
+                      style: customStyle(16, Colors.black, FontWeight.w500),
+                    ),
+                  ],
+                ),
+              )
       ],
     );
   }
